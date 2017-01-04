@@ -26,7 +26,8 @@ namespace genMap
         Rectangle canvas;
         Color[] pixels;
         KeyboardState kstate;
-        PerlinNoise pn;
+        PerlinNoise pn;     // standard
+        Perlin ipn;         // improved
 
 
         public testGen()
@@ -51,6 +52,7 @@ namespace genMap
             kstate = new KeyboardState();
 
             pn = new PerlinNoise(canvas.Width, canvas.Height);
+            ipn = new Perlin();
 
             for (int y = 0; y < canvas.Height; y++)
                 for (int x = 0; x < canvas.Width; x++)
@@ -104,8 +106,11 @@ namespace genMap
             float pers = 0.5f;
             int octave = 5;
 
+            // NeHe Generator
             if (kstate.IsKeyDown(Keys.Space))
                 divideMap(pixels, canvas.Width, canvas.Height, 0, 0, canvas.Width - 1, canvas.Height - 1);
+
+            // standard Perlin
             if (kstate.IsKeyDown(Keys.PageUp))
             {
                 for (int i = 0; i < canvas.Width; i++)
@@ -118,7 +123,20 @@ namespace genMap
                     }
                 }
             }
-            
+
+            // improved Perlin
+            if (kstate.IsKeyDown(Keys.PageDown))
+            {
+                for (double i = 0; i < canvas.Width; i = i + 0.5)
+                {
+                    for (double j = 0; j < canvas.Height; j = j + 0.5)
+                    {
+                        double perlinVal = ipn.perlin(i, j, 5);
+                        pixels[(int)i + (int)j * canvas.Width] = new Color((float)perlinVal, (float)perlinVal, (float)perlinVal);
+                    }
+                }
+            }
+
             //
             base.Update(gameTime);
         }

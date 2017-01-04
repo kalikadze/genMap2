@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassicPerlinNoise.cs" />
+    <Compile Include="ImprovedPerlinNoise.cs" />
     <Compile Include="utilsGen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
